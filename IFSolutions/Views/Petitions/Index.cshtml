@@ -10,6 +10,15 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<hr />
+<form class="form-inline">
+    <div class="form-group">
+        <label class="sr-only" for="filterText">Filter:</label>
+        <input type="text" class="form-control" autocomplete="off" name="filterText" placeholder="Title" />
+    </div>
+    <input type="submit" class="btn btn-default" value="Filter" id="filterText" />
+</form>
+<hr />
 @foreach (var item in Model)
 {
     <div class="panel panel-default">
@@ -81,5 +90,4 @@
             </table>
         </div>
     </div>
-    <hr />
 }

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<IFSolutions.Models.Petition>
+
+@using IFSolutions.Models
+
+@{
+    ViewBag.Title = "Explore - To Be Solved";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Explore - To Be Solved</h2>
+<hr />
+<form class="form-inline">
+    <div class="form-group">
+        <label for="campusDropDown" class="sr-only">Campus: </label>
+        @Html.DropDownList("campusID", (IEnumerable<SelectListItem>) ViewBag.CampiList, new { @class = "form-control", @id = "campusDropDown" })
+    </div>
+    <input type="submit" value="Filter" class="btn btn-default" />
+    @Html.ActionLink("Clean Filter", "Index", "Explore")
+</form>
+<hr />
+@foreach (var petition in Model)
+{
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title">@petition.Title</h3>
+        </div>
+        <div class="panel-body">
+            @petition.Description
+            <hr />
+            <strong>Student: </strong>@petition.User.FirstName @petition.User.LastName ||
+            <strong>Date Created: </strong>@petition.DateCreated
+        </div>
+    </div>
+}

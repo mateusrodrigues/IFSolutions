@@ -167,6 +167,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CampusController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\ExploreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PetitionsController.cs" />
@@ -279,6 +280,7 @@
     <Content Include="Views\Petitions\Delete.cshtml" />
     <Content Include="Views\Petitions\Edit.cshtml" />
     <Content Include="Views\Petitions\Index.cshtml" />
+    <Content Include="Views\Explore\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
