@@ -12,10 +12,15 @@ namespace IFSolutions.Models
     public class User : IdentityUser
     {
         [Required]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
+
         [Required]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
         [Required]
+        [Display(Name = "Campus")]
         public int CampusID { get; set; }
         public virtual Campus Campus { get; set; }
 

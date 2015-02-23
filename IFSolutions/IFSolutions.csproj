@@ -200,7 +200,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Petition.cs" />
     <Compile Include="Models\PetitionComplaint.cs" />
-    <Compile Include="Models\PetitionViewModel.cs" />
+    <Compile Include="Models\PetitionViewModels.cs" />
     <Compile Include="Models\Signature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

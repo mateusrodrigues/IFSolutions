@@ -11,6 +11,7 @@ namespace IFSolutions.Models
         public int CampusID { get; set; }
 
         [Required]
+        [Display(Name = "Campus")]
         public string Description { get; set; }
 
         public virtual ICollection<Petition> Petitions { get; set; }

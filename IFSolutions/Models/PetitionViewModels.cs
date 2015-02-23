@@ -9,11 +9,16 @@ namespace IFSolutions.Models
     public class CreatePetitionViewModel
     {
         [Required]
+        [Display(Name = "Category")]
         public int CategoryID { get; set; }
+
         [Required]
+        [Display(Name = "Campus")]
         public int CampusID { get; set; }
+
         [Required]
         public string Title { get; set; }
+
         [Required]
         public string Description { get; set; }
     }
@@ -22,12 +27,18 @@ namespace IFSolutions.Models
     {
         [Required]
         public int PetitionID { get; set; }
+
         [Required]
+        [Display(Name = "Category")]
         public int CategoryID { get; set; }
+
         [Required]
+        [Display(Name = "Campus")]
         public int CampusID { get; set; }
+
         [Required]
         public string Title { get; set; }
+
         [Required]
         public string Description { get; set; }
     }

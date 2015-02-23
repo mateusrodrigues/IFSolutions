@@ -18,7 +18,6 @@ namespace IFSolutions.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Petitions
-        [AllowAnonymous]
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
@@ -60,10 +59,6 @@ namespace IFSolutions.Controllers
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
-            }
-            else
-            {
-                ViewBag.ErrorMessage = "Error during creation of petition";
             }
 
             var campi = db.Campus.OrderBy(m => m.Description);

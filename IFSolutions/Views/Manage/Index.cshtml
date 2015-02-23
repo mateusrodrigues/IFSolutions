@@ -9,56 +9,68 @@
 <div>
     <h4>Change your account settings</h4>
     <hr />
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="configDropDownMenu" data-toggle="dropdown" aria-expanded="true">
+            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+             Settings
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            @if (Model.HasPassword)
+            {
+                <li role="presentation">@Html.ActionLink("Change your password", "ChangePassword")</li>
+            }
+        </ul>
+
+    </div>
+    <br />
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="panel-title"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Info</div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover">
+                <tr>
+                    <td><strong>First Name:</strong></td>
+                    <td>@ViewBag.UserFirstName</td>
+                </tr>
+                <tr>
+                    <td><strong>Last Name:</strong></td>
+                    <td>@ViewBag.UserLastName</td>
+                </tr>
+                <tr>
+                    <td><strong>Campus:</strong></td>
+                    <td>@ViewBag.UserCampus</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <div class="panel-title"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Statistics</div>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="badge">@ViewBag.PetitionsCount</span>
+                    @Html.ActionLink("Petitions", "Index", "Petitions")
+                </li>
+                <li class="list-group-item">
+                    <span class="badge">@ViewBag.SignaturesCount</span>
+                    Signatures
+                </li>
+                <li class="list-group-item">
+                    <span class="badge">@ViewBag.CommentsCount</span>
+                    Comments
+                </li>
+            </ul>
+        </div>
+    </div>
     <dl class="dl-horizontal">
-        <dt>First Name:</dt>
-        <dd>
-            @ViewBag.UserFirstName
-        </dd>
-        <dt>Last Name:</dt>
-        <dd>
-            @ViewBag.UserLastName
-        </dd>
-        <dt>Campus:</dt>
-        <dd>
-            @ViewBag.UserCampus
-        </dd>
-        <dd><hr /></dd>
-        <dt>Data Count:</dt>
-        <dd>
-            <div class="col-md-4">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <span class="badge">@ViewBag.PetitionsCount</span>
-                        @Html.ActionLink("Petitions", "Index", "Petitions")
-                    </li>
-                    <li class="list-group-item">
-                        <span class="badge">@ViewBag.CommentsCount</span>
-                        Comments
-                    </li>
-                    <li class="list-group-item">
-                        <span class="badge">@ViewBag.SignaturesCount</span>
-                        Signatures
-                    </li>
-                </ul>
-            </div>
-        </dd>
         <dd><hr /></dd>
         <dt>Check role:</dt>
         <dd>
             @Html.ActionLink("Attribute now", "AttributeRole", "Manage")
-        </dd>
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
-            ]
         </dd>
         <dt>External Logins:</dt>
         <dd>

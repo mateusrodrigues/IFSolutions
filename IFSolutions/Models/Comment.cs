@@ -19,6 +19,7 @@ namespace IFSolutions.Models
         public virtual User User { get; set; }
 
         [Required]
+        [Display(Name = "Comment")]
         public string Content { get; set; }
 
         public virtual ICollection<CommentComplaint> Complaints { get; set; }

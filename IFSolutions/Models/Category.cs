@@ -11,6 +11,7 @@ namespace IFSolutions.Models
         public int CategoryID { get; set; }
 
         [Required]
+        [Display(Name = "Description")]
         public string Description { get; set; }
 
         public virtual ICollection<Petition> Petitions { get; set; }
