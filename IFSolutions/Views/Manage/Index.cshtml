@@ -11,7 +11,7 @@
     <hr />
     <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" id="configDropDownMenu" data-toggle="dropdown" aria-expanded="true">
-            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
              Settings
             <span class="caret"></span>
         </button>
@@ -31,23 +31,27 @@
         <div class="panel-body">
             <table class="table table-hover">
                 <tr>
-                    <td><strong>First Name:</strong></td>
-                    <td>@ViewBag.UserFirstName</td>
+                    <td><strong>@Html.DisplayNameFor(m => m.User.FirstName)</strong></td>
+                    <td>@Html.DisplayFor(m => m.User.FirstName)</td>
                 </tr>
                 <tr>
-                    <td><strong>Last Name:</strong></td>
-                    <td>@ViewBag.UserLastName</td>
+                    <td><strong>@Html.DisplayNameFor(m => m.User.LastName)</strong></td>
+                    <td>@Html.DisplayFor(m => m.User.LastName)</td>
                 </tr>
                 <tr>
-                    <td><strong>Campus:</strong></td>
-                    <td>@ViewBag.UserCampus</td>
+                    <td><strong>@Html.DisplayNameFor(m => m.User.Email)</strong></td>
+                    <td>@Html.DisplayFor(m => m.User.Email)</td>
+                </tr>
+                <tr>
+                    <td><strong>@Html.DisplayNameFor(m => m.User.Campus.Description)</strong></td>
+                    <td>@Html.DisplayFor(m => m.User.Campus.Description)</td>
                 </tr>
             </table>
         </div>
     </div>
     <div class="panel panel-success">
         <div class="panel-heading">
-            <div class="panel-title"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Statistics</div>
+            <div class="panel-title"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Statistics</div>
         </div>
         <div class="panel-body">
             <ul class="list-group">

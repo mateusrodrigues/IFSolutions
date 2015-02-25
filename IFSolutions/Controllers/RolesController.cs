@@ -9,14 +9,16 @@ using IFSolutions.Models;
 
 namespace IFSolutions.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class RolesController : Controller
     {
-        private ApplicationDbContext context = new ApplicationDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
+        private UserManager<User> _userManager = new UserManager<User>(new UserStore<User>(new ApplicationDbContext()));
 
         // GET: Roles
         public ActionResult Index()
         {
-            var roles = context.Roles.ToList();
+            var roles = db.Roles.ToList();
             return View(roles);
         }
 
@@ -33,8 +35,8 @@ namespace IFSolutions.Controllers
         {
             try
             {
-                context.Roles.Add(new IdentityRole() { Name = collection["RoleName"] });
-                context.SaveChanges();
+                db.Roles.Add(new IdentityRole() { Name = collection["RoleName"] });
+                db.SaveChanges();
 
                 ViewBag.ResultMessage = "Role created successfully!";
 
@@ -48,9 +50,9 @@ namespace IFSolutions.Controllers
 
         public ActionResult Delete(string RoleName)
         {
-            var thisRole = context.Roles.Where(r => r.Name.Equals(RoleName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-            context.Roles.Remove(thisRole);
-            context.SaveChanges();
+            var thisRole = db.Roles.Where(r => r.Name.Equals(RoleName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            db.Roles.Remove(thisRole);
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -58,7 +60,7 @@ namespace IFSolutions.Controllers
         [HttpGet]
         public ActionResult Edit(string RoleName)
         {
-            var thisRole = context.Roles.Where(r => r.Name.Equals(RoleName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            var thisRole = db.Roles.Where(r => r.Name.Equals(RoleName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
             return View(thisRole);
         }
 
@@ -69,8 +71,8 @@ namespace IFSolutions.Controllers
         {
             try
             {
-                context.Entry(role).State = System.Data.Entity.EntityState.Modified;
-                context.SaveChanges();
+                db.Entry(role).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -82,68 +84,71 @@ namespace IFSolutions.Controllers
 
         public ActionResult ManageUserRoles()
         {
-            var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr =>
-                new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
-            ViewBag.Roles = list;
-            return View();
+            List<UsersRolesViewModel> list = new List<UsersRolesViewModel>();
+
+            var users = db.Users.OrderBy(m => m.FirstName).ToList();
+
+            foreach (User user in users)
+            {
+                var userItem = new UsersRolesViewModel()
+                {
+                    User = user,
+                    RoleName = _userManager.GetRoles(user.Id).FirstOrDefault()
+                };
+
+                list.Add(userItem);
+            }
+
+            return View(list.ToList());
+        }
+
+        [HttpGet]
+        public ActionResult ChangeRole(string id)
+        {
+            UsersRolesViewModel viewModel = new UsersRolesViewModel()
+            {
+                User = db.Users.Where(m => m.Id.Equals(id, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault(),
+                UserId = id,
+                RoleName = _userManager.GetRoles(id).FirstOrDefault(),
+                NewRole = _userManager.GetRoles(id).FirstOrDefault()
+            };
+
+            var roles = db.Roles.Select(m => new SelectListItem
+                {
+                    Value = m.Name,
+                    Text = m.Name
+                });
+
+            ViewBag.Roles = roles;
+
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RoleAddToUser(string UserName, string RoleName)
+        public ActionResult ChangeRole(UsersRolesViewModel newUserProperties)
         {
-            User user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-            var account = new AccountController();
-            account.UserManager.AddToRole(user.Id, RoleName);
+            _userManager.AddToRole(newUserProperties.UserId, newUserProperties.NewRole);
 
-            ViewBag.ResultMessage = "User added to role successfully";
+            if (newUserProperties.RoleName != null)
+                _userManager.RemoveFromRole(newUserProperties.UserId, newUserProperties.RoleName);
 
-            var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
-            ViewBag.Roles = list;
+            List<UsersRolesViewModel> list = new List<UsersRolesViewModel>();
 
-            return View("ManageUserRoles");
-        }
+            var users = db.Users.OrderBy(m => m.FirstName).ToList();
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult GetRoles(string UserName)
-        {
-            if (!string.IsNullOrWhiteSpace(UserName))
+            foreach (User user in users)
             {
-                User user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                var account = new AccountController();
+                var userItem = new UsersRolesViewModel()
+                {
+                    User = user,
+                    RoleName = _userManager.GetRoles(user.Id).FirstOrDefault()
+                };
 
-                ViewBag.RolesForThisUser = account.UserManager.GetRoles(user.Id);
-
-                // prepopulat roles for the view dropdown
-                var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
-                ViewBag.Roles = list;
+                list.Add(userItem);
             }
 
-            return View("ManageUserRoles");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteRoleForUser(string UserName, string RoleName)
-        {
-            var account = new AccountController();
-            User user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-
-            if (account.UserManager.IsInRole(user.Id, RoleName))
-            {
-                account.UserManager.RemoveFromRole(user.Id, RoleName);
-                ViewBag.ResultMessage = "Role removed from this user successfully !";
-            }
-            else
-            {
-                ViewBag.ResultMessage = "This user doesn't belong to selected role.";
-            }
-            // prepopulat roles for the view dropdown
-            var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
-            ViewBag.Roles = list;
-
-            return View("ManageUserRoles");
+            return View("ManageUserRoles", list);
         }
     }
 }

@@ -23,7 +23,7 @@
 {
     <div class="panel panel-default">
         <div class="panel-body">
-            <table cellpadding="5">
+            <table>
                 <tr>
                     <td style="text-align: right; font-weight: bold">
                         Title:
@@ -83,7 +83,7 @@
                 <tr>
                     <td></td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.PetitionID }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.PetitionID })
                         @Html.ActionLink("Delete", "Delete", new { id = item.PetitionID })
                     </td>
                 </tr>

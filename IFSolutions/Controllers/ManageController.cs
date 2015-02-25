@@ -115,16 +115,13 @@ namespace IFSolutions.Controllers
 
             var model = new IndexViewModel
             {
+                User = currentUser,
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
-
-            ViewBag.UserFirstName = currentUser.FirstName;
-            ViewBag.UserLastName = currentUser.LastName;
-            ViewBag.UserCampus = currentUser.Campus.Description;
 
             // Data Counter
             ViewBag.PetitionsCount = currentUser.Petitions.Count;

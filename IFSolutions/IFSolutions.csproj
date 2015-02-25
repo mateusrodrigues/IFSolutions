@@ -281,6 +281,7 @@
     <Content Include="Views\Petitions\Edit.cshtml" />
     <Content Include="Views\Petitions\Index.cshtml" />
     <Content Include="Views\Explore\Index.cshtml" />
+    <Content Include="Views\Roles\ChangeRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

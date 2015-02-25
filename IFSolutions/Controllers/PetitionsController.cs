@@ -20,21 +20,29 @@ namespace IFSolutions.Controllers
         // GET: Petitions
         public ActionResult Index(string filterText)
         {
-            var userId = User.Identity.GetUserId();
-
-            if (filterText != null)
+            if (!User.IsInRole("Administrator") && !User.IsInRole("Employee"))
             {
-                var filteredPetitions = db.Petitions.Include(p => p.Campus).Include(p => p.Category).Include(p => p.User)
-                    .Where(p => p.UserId.Equals(userId, StringComparison.CurrentCultureIgnoreCase))
-                    .Where(p => p.Title.Contains(filterText.ToString())).OrderByDescending(p => p.DateCreated);
+                var userId = User.Identity.GetUserId();
 
-                return View(filteredPetitions.ToList());
+                if (filterText != null)
+                {
+                    var filteredPetitions = db.Petitions.Include(p => p.Campus).Include(p => p.Category).Include(p => p.User)
+                        .Where(p => p.UserId.Equals(userId, StringComparison.CurrentCultureIgnoreCase))
+                        .Where(p => p.Title.Contains(filterText.ToString())).OrderByDescending(p => p.DateCreated);
+
+                    return View(filteredPetitions.ToList());
+                }
+
+                var petitions = db.Petitions.Include(p => p.Campus).Include(p => p.Category).Include(p => p.User)
+                    .Where(p => p.UserId.Equals(userId, StringComparison.CurrentCultureIgnoreCase)).OrderByDescending(p => p.DateCreated);
+
+                return View(petitions.ToList());
             }
 
-            var petitions = db.Petitions.Include(p => p.Campus).Include(p => p.Category).Include(p => p.User)
-                .Where(p => p.UserId.Equals(userId, StringComparison.CurrentCultureIgnoreCase)).OrderByDescending(p => p.DateCreated);
-            
-            return View(petitions.ToList());
+            var allPetitions = db.Petitions.Include(p => p.Campus).Include(p => p.Category).Include(p => p.User)
+                .OrderByDescending(p => p.DateCreated);
+
+            return View(allPetitions.ToList());
         }
 
         // GET: Petitions/Create
@@ -79,6 +87,7 @@ namespace IFSolutions.Controllers
         }
 
         // GET: Petitions/Edit/5
+        [Authorize(Roles = "Administrator, Employee")]
         public ActionResult Edit(int? id)
         {
             if (id == null)

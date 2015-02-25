@@ -7,6 +7,8 @@ namespace IFSolutions.Models
 {
     public class IndexViewModel
     {
+        public User User { get; set; }
+
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }
@@ -82,5 +84,19 @@ namespace IFSolutions.Models
     {
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
+    }
+
+    public class UsersRolesViewModel
+    {
+        [Required]
+        public User User { get; set; }
+
+        [Required]
+        [Display(Name = "Role")]
+        public string RoleName { get; set; }
+
+        public string UserId { get; set; }
+
+        public string NewRole { get; set; }
     }
 }
