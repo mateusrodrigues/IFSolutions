@@ -1,0 +1,47 @@
+﻿@model IFSolutions.Models.UsersRolesViewModel
+@{
+    ViewBag.Title = "ChangeRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ChangeRole</h2>
+<hr />
+
+@using (Html.BeginForm("ChangeRole", "Roles", FormMethod.Post, new { @class = "form-horizontal", role = "form", newUserProperties = Model }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Change Role of User</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.UserId)
+    @Html.HiddenFor(m => m.RoleName)
+    <div class="form-group">
+        @Html.LabelFor(m => m.User.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DisplayFor(m => m.User.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.User.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DisplayFor(m => m.User.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.RoleName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DisplayFor(m => m.RoleName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.NewRole, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.NewRole, (IEnumerable<SelectListItem>)ViewBag.Roles, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-success" value="Save" />
+        </div>
+    </div>
+}
