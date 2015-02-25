@@ -56,7 +56,7 @@ namespace IFSolutions.Controllers
             var userId = User.Identity.GetUserId();
             var currentUser = UserManager.FindById(userId);
 
-            if (!User.IsInRole("Administrador") && currentUser.Email.Equals("mateus.rodrigues@live.com"))
+            if (!User.IsInRole("Administrator") && currentUser.Email.Equals("mateus.rodrigues321@gmail.com"))
             {
                 UserManager.AddToRole(userId, "Administrator");
 
