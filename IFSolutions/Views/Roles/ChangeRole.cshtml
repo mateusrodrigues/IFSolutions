@@ -11,6 +11,7 @@
 {
     @Html.AntiForgeryToken()
     <h4>Change Role of User</h4>
+    @Html.ActionLink("Back to List", "ManageUserRoles", "Roles")
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     @Html.HiddenFor(m => m.UserId)

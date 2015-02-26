@@ -13,10 +13,12 @@
 <hr />
 <form class="form-inline">
     <div class="form-group">
-        <label class="sr-only" for="filterText">Filter:</label>
+        <label class="sr-only" for="filterText">Filter</label>
         <input type="text" class="form-control" autocomplete="off" name="filterText" placeholder="Title" />
     </div>
-    <input type="submit" class="btn btn-default" value="Filter" id="filterText" />
+    <button type="submit" class="btn btn-default">
+        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filter
+    </button>
 </form>
 <hr />
 @foreach (var item in Model)
@@ -26,7 +28,7 @@
             <table class="table table-hover">
                 <tr>
                     <td style="text-align: right; font-weight: bold" class="col-md-2">
-                        Title:
+                        @Html.DisplayNameFor(p => p.FirstOrDefault().Title):
                     </td>
                     <td>
                         @item.Title
@@ -34,7 +36,7 @@
                 </tr>
                 <tr>
                     <td style="text-align: right; font-weight: bold">
-                        Description:
+                        @Html.DisplayNameFor(p => p.FirstOrDefault().Description):
                     </td>
                     <td>
                         @item.Description
@@ -42,15 +44,34 @@
                 </tr>
                 <tr>
                     <td style="text-align: right; font-weight: bold">
-                        Campus:
+                        @Html.DisplayNameFor(p => p.FirstOrDefault().Campus.Description):
                     </td>
                     <td>
                         @item.Campus.Description
                     </td>
                 </tr>
+                @if (User.IsInRole("Administrator") || User.IsInRole("Employee"))
+                {
+                    <tr>
+                        <td style="text-align: right; font-weight: bold">
+                            @Html.DisplayNameFor(p => p.FirstOrDefault().User.UserName):
+                        </td>
+                        <td>
+                            @item.User.FirstName @item.User.LastName
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; font-weight: bold">
+                            @Html.DisplayNameFor(p => p.FirstOrDefault().User.Email):
+                        </td>
+                        <td>
+                            @item.User.Email
+                        </td>
+                    </tr>
+                }
                 <tr>
                     <td style="text-align: right; font-weight: bold">
-                        Date Created:
+                        @Html.DisplayNameFor(p => p.FirstOrDefault().DateCreated):
                     </td>
                     <td>
                         @item.DateCreated
@@ -58,22 +79,22 @@
                 </tr>
                 <tr>
                     <td style="text-align: right; font-weight: bold">
-                        Solved:
+                        @Html.DisplayNameFor(p => p.FirstOrDefault().Solved):
                     </td>
                     @if (item.Solved)
                     {
-                        <td>Yes</td>
+                        <td><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></td>
                     }
                     else
                     {
-                        <td>No</td>
+                        <td><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></td>
                     }
                 </tr>
                 @if (item.Solved)
                 {
                     <tr>
                         <td style="text-align: right; font-weight: bold">
-                            Date Solved:
+                            @Html.DisplayNameFor(p => p.FirstOrDefault().DateSolved):
                         </td>
                         <td>
                             @item.DateSolved
@@ -89,5 +110,6 @@
                 </tr>
             </table>
         </div>
+
     </div>
 }

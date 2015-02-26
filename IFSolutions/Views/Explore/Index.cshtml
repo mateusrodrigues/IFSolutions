@@ -12,17 +12,23 @@
 <form class="form-inline">
     <div class="form-group">
         <label for="campusDropDown" class="sr-only">Campus: </label>
-        @Html.DropDownList("campusID", (IEnumerable<SelectListItem>) ViewBag.CampiList, new { @class = "form-control", @id = "campusDropDown" })
+        @Html.DropDownList("campusID", (IEnumerable<SelectListItem>)ViewBag.CampiList, "- All -",
+                new { @class = "form-control", @id = "campusDropDown" })
     </div>
-    <input type="submit" value="Filter" class="btn btn-default" />
-    @Html.ActionLink("Clean Filter", "Index", "Explore")
+    <button class="btn btn-default" type="submit">
+        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filter
+    </button>
 </form>
+
 <hr />
 @foreach (var petition in Model)
 {
     <div class="panel panel-warning">
         <div class="panel-heading">
-            <h3 class="panel-title">@petition.Title</h3>
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                @Html.ActionLink(petition.Title, "Details", new { id = petition.PetitionID })
+            </h3>
         </div>
         <div class="panel-body">
             @petition.Description

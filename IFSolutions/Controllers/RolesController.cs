@@ -82,11 +82,21 @@ namespace IFSolutions.Controllers
             }
         }
 
-        public ActionResult ManageUserRoles()
+        public ActionResult ManageUserRoles(string userEmail)
         {
             List<UsersRolesViewModel> list = new List<UsersRolesViewModel>();
 
-            var users = db.Users.OrderBy(m => m.FirstName).ToList();
+            IEnumerable<User> users;
+
+            if (String.IsNullOrEmpty(userEmail))
+            {
+                users = db.Users.OrderBy(m => m.FirstName).ToList();
+            }
+            else
+            {
+                users = db.Users.Where(m => m.Email.Equals(userEmail, StringComparison.CurrentCultureIgnoreCase))
+                    .OrderBy(m => m.FirstName).ToList();
+            }
 
             foreach (User user in users)
             {

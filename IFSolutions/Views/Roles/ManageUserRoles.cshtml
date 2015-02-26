@@ -6,7 +6,16 @@
 <h2>Manage User Roles</h2>
 @Html.ActionLink("Create New Role", "Create") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
 <hr />
-
+<form class="form-inline">
+    <div class="form-group">
+        <label for="userEmail" class="sr-only">User Email</label>
+        <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="Email Address" autocomplete="off" />
+    </div>
+    <button class="btn btn-default" type="submit">
+        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filter
+    </button>
+</form>
+<hr />
 <table class="table table-striped">
 
     <tr>

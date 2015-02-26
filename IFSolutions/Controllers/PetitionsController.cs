@@ -24,11 +24,11 @@ namespace IFSolutions.Controllers
             {
                 var userId = User.Identity.GetUserId();
 
-                if (filterText != null)
+                if (!String.IsNullOrEmpty(filterText))
                 {
                     var filteredPetitions = db.Petitions.Include(p => p.Campus).Include(p => p.Category).Include(p => p.User)
                         .Where(p => p.UserId.Equals(userId, StringComparison.CurrentCultureIgnoreCase))
-                        .Where(p => p.Title.Contains(filterText.ToString())).OrderByDescending(p => p.DateCreated);
+                        .Where(p => p.Title.Contains(filterText)).OrderByDescending(p => p.DateCreated);
 
                     return View(filteredPetitions.ToList());
                 }
@@ -39,8 +39,16 @@ namespace IFSolutions.Controllers
                 return View(petitions.ToList());
             }
 
+            if (!String.IsNullOrEmpty(filterText))
+            {
+                var filteredPetitions = db.Petitions.Include(p => p.Campus).Include(p => p.Category).Include(p => p.User)
+                    .Where(p => p.Title.Contains(filterText)).OrderByDescending(p => p.DateCreated);
+
+                return View(filteredPetitions.ToList());
+            }
+
             var allPetitions = db.Petitions.Include(p => p.Campus).Include(p => p.Category).Include(p => p.User)
-                .OrderByDescending(p => p.DateCreated);
+                    .OrderByDescending(p => p.DateCreated);
 
             return View(allPetitions.ToList());
         }
@@ -92,8 +100,9 @@ namespace IFSolutions.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
             }
+
             Petition petition = db.Petitions.Find(id);
 
             EditPetitionViewModel editPetition = new EditPetitionViewModel
@@ -107,17 +116,13 @@ namespace IFSolutions.Controllers
 
             if (petition == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index");
             }
+            
+            ViewBag.CampusID = new SelectList(db.Campus, "CampusID", "Description", petition.CampusID);
+            ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Description", petition.CategoryID);
 
-            if (petition.UserId.Equals(User.Identity.GetUserId().ToString()))
-            {
-                ViewBag.CampusID = new SelectList(db.Campus, "CampusID", "Description", petition.CampusID);
-                ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Description", petition.CategoryID);
-
-                return View(editPetition);
-            }
-            return RedirectToAction("Index");
+            return View(editPetition);
         }
 
         // POST: Petitions/Edit/5

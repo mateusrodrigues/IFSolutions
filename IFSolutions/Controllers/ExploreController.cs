@@ -28,5 +28,23 @@ namespace IFSolutions.Controllers
 
             return View(listAllPetitions.ToList());
         }
+
+        // GET: Explore/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            Petition petition = db.Petitions.Find(id);
+
+            if (petition == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(petition);
+        }
     }
 }
