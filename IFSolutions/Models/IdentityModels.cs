@@ -54,5 +54,9 @@ namespace IFSolutions.Models
         public System.Data.Entity.DbSet<IFSolutions.Models.Category> Categories { get; set; }
 
         public System.Data.Entity.DbSet<IFSolutions.Models.Petition> Petitions { get; set; }
+
+        public System.Data.Entity.DbSet<IFSolutions.Models.Comment> Comments { get; set; }
+
+        public System.Data.Entity.DbSet<IFSolutions.Models.Signature> Signatures { get; set; }
     }
 }

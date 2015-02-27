@@ -42,4 +42,17 @@ namespace IFSolutions.Models
         [Required]
         public string Description { get; set; }
     }
+
+    public class CommentPetitionViewModel
+    {
+        [Required]
+        public int PetitionID { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
+
+        [Required]
+        [MinLength(1)]
+        public string Comment { get; set; }
+    }
 }

@@ -19,6 +19,9 @@ namespace IFSolutions.Models
         public virtual User User { get; set; }
 
         [Required]
+        public DateTime DateTime { get; set; }
+
+        [Required]
         [Display(Name = "Comment")]
         public string Content { get; set; }
 

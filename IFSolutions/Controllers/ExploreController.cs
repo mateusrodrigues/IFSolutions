@@ -1,4 +1,6 @@
 ﻿using IFSolutions.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +9,7 @@ using System.Web.Mvc;
 
 namespace IFSolutions.Controllers
 {
+    [Authorize]
     public class ExploreController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
@@ -44,7 +47,77 @@ namespace IFSolutions.Controllers
                 return RedirectToAction("Index");
             }
 
+            string userId = User.Identity.GetUserId();
+
+            var checkNumSignature = db.Signatures
+                .Where(m => m.UserId.Equals(userId, StringComparison.CurrentCultureIgnoreCase)
+                && m.PetitionID == id).Count();
+            
+            if (checkNumSignature == 0)
+            {
+                ViewBag.UserSigned = false;
+            }
+            else
+            {
+                ViewBag.UserSigned = true;
+            }
+
             return View(petition);
+        }
+
+        [HttpPost]
+        public ActionResult Details(string commentContent, int petitionID)
+        {
+            if (String.IsNullOrEmpty(commentContent))
+            {
+                return RedirectToAction("Index");
+            }
+
+            Comment comment = new Comment()
+            {
+                Content = commentContent,
+                PetitionID = petitionID,
+                DateTime = DateTime.Now,
+                UserId = User.Identity.GetUserId()
+            };
+
+            db.Comments.Add(comment);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "Explore", petitionID);
+        }
+
+        public ActionResult SignPetition(int petitionID)
+        {
+            Signature signature = new Signature()
+            {
+                PetitionID = petitionID,
+                UserId = User.Identity.GetUserId()
+            };
+
+            db.Signatures.Add(signature);
+            db.SaveChanges();
+
+            return RedirectToAction("Details/" + petitionID, "Explore");
+        }
+
+        public ActionResult UnsignPetition(int petitionID)
+        {
+            string userID = User.Identity.GetUserId();
+
+            var signature = db.Signatures
+                .Where(m => m.PetitionID == petitionID && m.UserId.Equals(userID, StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault();
+
+            if (signature == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            db.Signatures.Remove(signature);
+            db.SaveChanges();
+
+            return RedirectToAction("Details/" + petitionID, "Explore");
         }
     }
 }

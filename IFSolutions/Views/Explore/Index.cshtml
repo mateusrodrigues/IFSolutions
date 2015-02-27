@@ -23,7 +23,7 @@
 <hr />
 @foreach (var petition in Model)
 {
-    <div class="panel panel-warning">
+    <div class="panel panel-danger">
         <div class="panel-heading">
             <h3 class="panel-title">
                 <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
@@ -31,10 +31,16 @@
             </h3>
         </div>
         <div class="panel-body">
-            @petition.Description
+            <p>
+                @petition.Description
+            </p>
+            <p>
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> @petition.Signatures.Count
+                <span class="glyphicon glyphicon-comment" aria-hidden="true" style="margin-left: 10px"></span> @petition.Comments.Count
+            </p>
             <hr />
             <strong>Student: </strong>@petition.User.FirstName @petition.User.LastName ||
-            <strong>Date Created: </strong>@petition.DateCreated
+            <strong>@Html.DisplayNameFor(m => m.FirstOrDefault().DateCreated): </strong>@petition.DateCreated
         </div>
     </div>
 }

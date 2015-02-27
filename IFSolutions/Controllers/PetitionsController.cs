@@ -162,7 +162,8 @@ namespace IFSolutions.Controllers
             {
                 return HttpNotFound();
             }
-            if (petition.UserId.Equals(User.Identity.GetUserId(), StringComparison.CurrentCultureIgnoreCase))
+            if (petition.UserId.Equals(User.Identity.GetUserId(), StringComparison.CurrentCultureIgnoreCase)
+                        || User.IsInRole("Administrator") || User.IsInRole("Employee"))
             {
                 return View(petition);
             }

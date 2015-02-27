@@ -191,6 +191,14 @@
     <Compile Include="Migrations\201502221807470_Signatures.Designer.cs">
       <DependentUpon>201502221807470_Signatures.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502262251494_DateTimeToComment.cs" />
+    <Compile Include="Migrations\201502262251494_DateTimeToComment.Designer.cs">
+      <DependentUpon>201502262251494_DateTimeToComment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502262343262_ContextUpdate.cs" />
+    <Compile Include="Migrations\201502262343262_ContextUpdate.Designer.cs">
+      <DependentUpon>201502262343262_ContextUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Campus.cs" />
@@ -307,6 +315,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502221807470_Signatures.resx">
       <DependentUpon>201502221807470_Signatures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502262251494_DateTimeToComment.resx">
+      <DependentUpon>201502262251494_DateTimeToComment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502262343262_ContextUpdate.resx">
+      <DependentUpon>201502262343262_ContextUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
