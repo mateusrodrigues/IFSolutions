@@ -1,4 +1,5 @@
 ﻿@model IFSolutions.Models.Petition
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Details";
@@ -13,7 +14,7 @@
     <div class="panel panel-danger" style="padding: 0;">
         <div class="panel-heading">
             <h3 class="panel-title">
-                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                 @Model.Title
             </h3>
         </div>
@@ -69,6 +70,11 @@
                         </h5>
                         <p style="font-size: 9pt">
                             @comment.DateTime
+
+                            @if (User.Identity.GetUserId().Equals(comment.UserId, StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                @Html.ActionLink("Delete", "DeleteComment", new { commentID = comment.CommentID, petitionID = Model.PetitionID });
+                            }
                         </p>
                         <p class="list-group-item-text">
                             @comment.Content

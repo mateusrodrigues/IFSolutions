@@ -119,5 +119,20 @@ namespace IFSolutions.Controllers
 
             return RedirectToAction("Details/" + petitionID, "Explore");
         }
+
+        public ActionResult DeleteComment(int commentID, int petitionID)
+        {
+            string userID = User.Identity.GetUserId();
+
+            var comment = db.Comments.Find(commentID);
+
+            if (comment.UserId.Equals(userID, StringComparison.CurrentCultureIgnoreCase))
+            {
+                db.Comments.Remove(comment);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Details/" + petitionID, "Explore");
+        }
     }
 }
