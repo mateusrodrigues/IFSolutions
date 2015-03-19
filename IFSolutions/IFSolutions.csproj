@@ -292,6 +292,7 @@
     <Content Include="Views\Roles\ChangeRole.cshtml" />
     <Content Include="Views\Shared\Info.cshtml" />
     <Content Include="Views\Explore\Details.cshtml" />
+    <Content Include="Views\Explore\Solved.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

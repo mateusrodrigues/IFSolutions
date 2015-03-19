@@ -12,7 +12,7 @@
 <form class="form-inline">
     <div class="form-group">
         <label for="campusDropDown" class="sr-only">Campus: </label>
-        @Html.DropDownList("campusID", (IEnumerable<SelectListItem>)ViewBag.CampiList, "- All -",
+        @Html.DropDownList("campusID", (IEnumerable<SelectListItem>)ViewBag.CampiList, "- Campus -",
                 new { @class = "form-control", @id = "campusDropDown" })
     </div>
     <button class="btn btn-default" type="submit">
@@ -23,10 +23,10 @@
 <hr />
 @foreach (var petition in Model)
 {
-    <div class="panel panel-danger">
+    <div class="@ViewBag.DivClass">
         <div class="panel-heading">
             <h3 class="panel-title">
-                <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                <span class="@ViewBag.Glyphicon" aria-hidden="true"></span>
                 @Html.ActionLink(petition.Title, "Details", new { id = petition.PetitionID })
             </h3>
         </div>

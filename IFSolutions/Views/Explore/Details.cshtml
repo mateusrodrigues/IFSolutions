@@ -11,7 +11,7 @@
 <div>
     <h4>Petition</h4>
     <hr />
-    <div class="panel panel-danger" style="padding: 0;">
+    <div class="panel panel-default" style="padding: 0;">
         <div class="panel-heading">
             <h3 class="panel-title">
                 <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
@@ -34,13 +34,16 @@
             </p>
             <p>
                 <strong>Signatures:</strong> @Html.DisplayFor(p => p.Signatures.Count)
-                @if (!ViewBag.UserSigned)
-                {
-                    @Html.ActionLink("Sign it!", "SignPetition", new { petitionID = Model.PetitionID });
-                }
-                else
-                {
-                    @Html.ActionLink("Unsign it!", "UnsignPetition", new { petitionID = Model.PetitionID });
+                @if (User.Identity.IsAuthenticated)
+                { 
+                    if (!ViewBag.UserSigned)
+                    {
+                        @Html.ActionLink("Sign it!", "SignPetition", new { petitionID = Model.PetitionID });
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Unsign it!", "UnsignPetition", new { petitionID = Model.PetitionID });
+                    }
                 }
             </p>
         </div>
@@ -50,17 +53,20 @@
             <h3 class="panel-title"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Comments</h3>
         </div>
         <div class="panel-body">
-            <div>
-                <p>@User.Identity.Name says:</p>
-                <form method="post" class="form-group">
-                    <div class="form-group">
-                        @Html.Hidden("petitionID", Model.PetitionID)
-                        <textarea name="commentContent" placeholder="Your comment" class="form-control"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-default">Comment</button>
-                </form>
-            </div>
-            <hr />
+            @if (User.Identity.IsAuthenticated)
+            { 
+                <div>
+                    <p>@User.Identity.Name says:</p>
+                    <form method="post" class="form-group">
+                        <div class="form-group">
+                            @Html.Hidden("petitionID", Model.PetitionID)
+                            <textarea name="commentContent" placeholder="Your comment" class="form-control"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-default">Comment</button>
+                    </form>
+                </div>
+                <hr />
+            }
             <ul class="list-group">
                 @foreach (var comment in Model.Comments.OrderBy(m => m.DateTime))
                 {
@@ -70,10 +76,12 @@
                         </h5>
                         <p style="font-size: 9pt">
                             @comment.DateTime
-
-                            @if (User.Identity.GetUserId().Equals(comment.UserId, StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                @Html.ActionLink("Delete", "DeleteComment", new { commentID = comment.CommentID, petitionID = Model.PetitionID });
+                            @if (User.Identity.IsAuthenticated)
+                            { 
+                                if (User.Identity.GetUserId().Equals(comment.UserId, StringComparison.CurrentCultureIgnoreCase))
+                                {
+                                    @Html.ActionLink("Delete", "DeleteComment", new { commentID = comment.CommentID, petitionID = Model.PetitionID });
+                                }
                             }
                         </p>
                         <p class="list-group-item-text">

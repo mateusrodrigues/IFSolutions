@@ -15,24 +15,43 @@ namespace IFSolutions.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Explore
-        public ActionResult Index(int? campusID)
+        [AllowAnonymous]
+        public ActionResult Index(int? campusID, bool solved = false)
         {
             ViewBag.CampiList = new SelectList(db.Campus.OrderBy(m => m.Description), "CampusID", "Description");
-            
+
+            if (solved)
+            {
+                ViewBag.DivClass = "panel panel-success";
+                ViewBag.Glyphicon = "glyphicon glyphicon-ok-circle";
+            }
+            else
+            {
+                ViewBag.DivClass = "panel panel-danger";
+                ViewBag.Glyphicon = "glyphicon glyphicon-remove-circle";
+            }
+
             if (campusID.HasValue)
             {
-                var listPetitions = db.Petitions.Where(m => m.CampusID == campusID).Where(m => m.Solved == false)
+                var listPetitions = db.Petitions.Where(m => m.CampusID == campusID && m.Solved == solved)
                     .OrderByDescending(m => m.Signatures.Count).Take(20);
 
                 return View(listPetitions.ToList());
             }
 
-            var listAllPetitions = db.Petitions.OrderByDescending(m => m.Signatures.Count).Where(m => m.Solved == false).Take(20);
+            var listAllPetitions = db.Petitions.OrderByDescending(m => m.Signatures.Count).Where(m => m.Solved == solved).Take(20);
 
             return View(listAllPetitions.ToList());
         }
 
+        [AllowAnonymous]
+        public ActionResult Solved()
+        {
+            return View();
+        }
+
         // GET: Explore/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
