@@ -2,6 +2,17 @@
 @using Microsoft.AspNet.Identity
 
 @{
+    if (Model.Solved)
+    {
+        ViewBag.DivClass = "panel panel-success";
+        ViewBag.Glyphicon = "glyphicon glyphicon-ok-circle";
+    }
+    else
+    {
+        ViewBag.DivClass = "panel panel-danger";
+        ViewBag.Glyphicon = "glyphicon glyphicon-remove-circle";
+    }
+    
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -11,10 +22,10 @@
 <div>
     <h4>Petition</h4>
     <hr />
-    <div class="panel panel-default" style="padding: 0;">
+    <div class="@ViewBag.DivClass" style="padding: 0;">
         <div class="panel-heading">
             <h3 class="panel-title">
-                <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                <span class="@ViewBag.Glyphicon" aria-hidden="true"></span>
                 @Model.Title
             </h3>
         </div>
@@ -34,7 +45,7 @@
             </p>
             <p>
                 <strong>Signatures:</strong> @Html.DisplayFor(p => p.Signatures.Count)
-                @if (User.Identity.IsAuthenticated)
+                @if (User.Identity.IsAuthenticated && !Model.Solved)
                 { 
                     if (!ViewBag.UserSigned)
                     {
@@ -57,12 +68,12 @@
             { 
                 <div>
                     <p>@User.Identity.Name says:</p>
-                    <form method="post" class="form-group">
+                    <form method="post" class="form-inline">
                         <div class="form-group">
                             @Html.Hidden("petitionID", Model.PetitionID)
                             <textarea name="commentContent" placeholder="Your comment" class="form-control"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-default">Comment</button>
+                        <button type="submit" class="btn btn-default" style="vertical-align: bottom">Comment</button>
                     </form>
                 </div>
                 <hr />

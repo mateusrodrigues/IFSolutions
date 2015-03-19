@@ -3,11 +3,23 @@
 @using IFSolutions.Models
 
 @{
-    ViewBag.Title = "Explore - To Be Solved";
+    if (ViewBag.Solved)
+    {
+        ViewBag.DivClass = "panel panel-success";
+        ViewBag.Glyphicon = "glyphicon glyphicon-ok-circle";
+        ViewBag.Title = "Explore - Solved";
+    }
+    else
+    {
+        ViewBag.DivClass = "panel panel-danger";
+        ViewBag.Glyphicon = "glyphicon glyphicon-remove-circle";
+        ViewBag.Title = "Explore - To Be Solved";
+    }
+    
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Explore - To Be Solved</h2>
+<h2>@ViewBag.Title</h2>
 <hr />
 <form class="form-inline">
     <div class="form-group">

@@ -19,17 +19,7 @@ namespace IFSolutions.Controllers
         public ActionResult Index(int? campusID, bool solved = false)
         {
             ViewBag.CampiList = new SelectList(db.Campus.OrderBy(m => m.Description), "CampusID", "Description");
-
-            if (solved)
-            {
-                ViewBag.DivClass = "panel panel-success";
-                ViewBag.Glyphicon = "glyphicon glyphicon-ok-circle";
-            }
-            else
-            {
-                ViewBag.DivClass = "panel panel-danger";
-                ViewBag.Glyphicon = "glyphicon glyphicon-remove-circle";
-            }
+            ViewBag.Solved = solved;
 
             if (campusID.HasValue)
             {
