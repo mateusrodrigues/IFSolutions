@@ -12,11 +12,11 @@ namespace IFSolutions.Models
     public class User : IdentityUser
     {
         [Required]
-        [Display(Name = "Nome")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Sobrenome")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Required]
