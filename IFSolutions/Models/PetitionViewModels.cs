@@ -9,7 +9,7 @@ namespace IFSolutions.Models
     public class CreatePetitionViewModel
     {
         [Required]
-        [Display(Name = "Category")]
+        [Display(Name = "Categoria")]
         public int CategoryID { get; set; }
 
         [Required]
@@ -29,7 +29,7 @@ namespace IFSolutions.Models
         public int PetitionID { get; set; }
 
         [Required]
-        [Display(Name = "Category")]
+        [Display(Name = "Categoria")]
         public int CategoryID { get; set; }
 
         [Required]

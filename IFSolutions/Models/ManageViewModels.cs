@@ -30,14 +30,14 @@ namespace IFSolutions.Models
     public class SetPasswordViewModel
     {
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} deve ter pelo menos {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Nova senha")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Confirmar nova senha")]
+        [Compare("NewPassword", ErrorMessage = "A senha e a confirmação não conferem.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -45,18 +45,18 @@ namespace IFSolutions.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Senha atual")]
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} deve ter pelo menos {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Nova senha")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Confirmar nova senha")]
+        [Compare("NewPassword", ErrorMessage = "A senha e a confirmação não conferem.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -92,7 +92,7 @@ namespace IFSolutions.Models
         public User User { get; set; }
 
         [Required]
-        [Display(Name = "Role")]
+        [Display(Name = "Tipo")]
         public string RoleName { get; set; }
 
         public string UserId { get; set; }
