@@ -12,35 +12,15 @@
         ViewBag.DivClass = "panel panel-danger";
         ViewBag.Glyphicon = "glyphicon glyphicon-remove-circle";
     }
-
+    
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="fb-root"></div>
-<script>
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-<script type="text/javascript">
-    function onSuccess() {
-        document.getElementById("comment-textbox").textContent = "";
-    }
-</script>
-
 <h2>Petition Details</h2>
 
 <div>
-    <p>
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+    <h4>Petition</h4>
     <hr />
     <div class="@ViewBag.DivClass" style="padding: 0;">
         <div class="panel-heading">
@@ -59,7 +39,6 @@
             <p>
                 @Html.DisplayFor(p => p.Description)
             </p>
-            <p><div class="fb-share-button" data-href="@Request.Url.AbsoluteUri" data-layout="button_count"></div></p>
             <hr />
             <p>
                 <strong>Created by:</strong> @Html.DisplayFor(p => p.User.FirstName) @Html.DisplayFor(p => p.User.LastName)
@@ -67,7 +46,7 @@
             <p>
                 <strong>Signatures:</strong> @Html.DisplayFor(p => p.Signatures.Count)
                 @if (User.Identity.IsAuthenticated && !Model.Solved)
-                {
+                { 
                     if (!ViewBag.UserSigned)
                     {
                         @Html.ActionLink("Sign it!", "SignPetition", new { petitionID = Model.PetitionID });
@@ -78,41 +57,54 @@
                     }
                 }
             </p>
-            @if (Model.Solved)
-            {
-                <p>
-                    <strong>@Html.DisplayNameFor(m => m.DateSolved):</strong> @Html.DisplayFor(m => m.DateSolved)
-                </p>
-            }
-            else
-            {
-                if (User.IsInRole("Administrator") || User.IsInRole("Employee") ||
-                    Model.UserId.Equals(User.Identity.GetUserId(), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="manageDropDown" data-toggle="dropdown" aria-expanded="true">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                            Manage
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            @if (!Model.Solved)
-                            {
-                                <li role="presentation">@Html.ActionLink("Mark as Solved", "MarkAsSolved", new { petitionID = Model.PetitionID })</li>
-                            }
-                        </ul>
-                    </div>
-                }
-            }
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Comments</h3>
         </div>
-        <div class="panel-body" id="comments">
-            @Html.Action("_ListComments", "Explore", new { petitionID = Model.PetitionID })
+        <div class="panel-body">
+            @if (User.Identity.IsAuthenticated)
+            { 
+                <div>
+                    <p>@User.Identity.Name says:</p>
+                    <form method="post" class="form-inline">
+                        <div class="form-group">
+                            @Html.Hidden("petitionID", Model.PetitionID)
+                            <textarea name="commentContent" placeholder="Your comment" class="form-control"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-default" style="vertical-align: bottom">Comment</button>
+                    </form>
+                </div>
+                <hr />
+            }
+            <ul class="list-group">
+                @foreach (var comment in Model.Comments.OrderBy(m => m.DateTime))
+                {
+                    <li class="list-group-item">
+                        <h5 class="list-group-item-heading" style="font-weight: bold">
+                            @comment.User.FirstName @comment.User.LastName (@comment.User.Campus.Description)
+                        </h5>
+                        <p style="font-size: 9pt">
+                            @comment.DateTime
+                            @if (User.Identity.IsAuthenticated)
+                            { 
+                                if (User.Identity.GetUserId().Equals(comment.UserId, StringComparison.CurrentCultureIgnoreCase))
+                                {
+                                    @Html.ActionLink("Delete", "DeleteComment", new { commentID = comment.CommentID, petitionID = Model.PetitionID });
+                                }
+                            }
+                        </p>
+                        <p class="list-group-item-text">
+                            @comment.Content
+                        </p>
+                    </li>
+                }
+            </ul>
         </div>
     </div>
 </div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
 
