@@ -74,26 +74,38 @@ namespace IFSolutions.Controllers
             return View(petition);
         }
 
-        [HttpPost]
-        public ActionResult Details(string commentContent, int petitionID)
+        [HttpGet]
+        [AllowAnonymous]
+        public PartialViewResult _ListComments(int petitionID)
         {
-            if (String.IsNullOrEmpty(commentContent))
-            {
-                return RedirectToAction("Index");
-            }
+            IEnumerable<Comment> comments = db.Petitions.Where(m => m.PetitionID == petitionID).FirstOrDefault()
+                .Comments.OrderBy(m => m.DateTime);
+            ViewBag.PetitionID = petitionID;
 
-            Comment comment = new Comment()
-            {
-                Content = commentContent,
-                PetitionID = petitionID,
-                DateTime = DateTime.Now,
-                UserId = User.Identity.GetUserId()
-            };
+            return PartialView("_ListComments", comments);
+        }
+
+        [HttpGet]
+        public PartialViewResult _CommentForm(int petitionID)
+        {
+            return PartialView("_CommentForm");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult _CommentForm(Comment comment)
+        {
+            comment.DateTime = DateTime.Now;
+            comment.UserId = User.Identity.GetUserId();
 
             db.Comments.Add(comment);
             db.SaveChanges();
 
-            return RedirectToAction("Details", "Explore", petitionID);
+            IEnumerable<Comment> comments = db.Petitions.Where(m => m.PetitionID == comment.PetitionID).FirstOrDefault()
+                .Comments.OrderBy(m => m.DateTime);
+            ViewBag.PetitionID = comment.PetitionID;
+
+            return PartialView("_ListComments", comments);
         }
 
         public ActionResult SignPetition(int petitionID)
@@ -129,7 +141,7 @@ namespace IFSolutions.Controllers
             return RedirectToAction("Details/" + petitionID, "Explore");
         }
 
-        public ActionResult DeleteComment(int commentID, int petitionID)
+        public PartialViewResult _DeleteComment(int commentID, int petitionID)
         {
             string userID = User.Identity.GetUserId();
 
@@ -141,7 +153,22 @@ namespace IFSolutions.Controllers
                 db.SaveChanges();
             }
 
-            return RedirectToAction("Details/" + petitionID, "Explore");
+            IEnumerable<Comment> comments = db.Petitions.Where(m => m.PetitionID == petitionID).FirstOrDefault()
+                .Comments.OrderBy(m => m.DateTime);
+            ViewBag.PetitionID = petitionID;
+
+            return PartialView("_ListComments", comments);
+        }
+
+        [Authorize(Roles = "Administrator, Employee")]
+        public ViewResult MarkAsSolved(int petitionID)
+        {
+            Petition petition = db.Petitions.Where(m => m.PetitionID == petitionID).FirstOrDefault();
+            petition.Solved = true;
+            petition.DateSolved = DateTime.Now;
+            db.SaveChanges();
+
+            return View("Details", petition);
         }
     }
 }
