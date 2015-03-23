@@ -22,7 +22,7 @@ namespace IFSolutions.Models
         public DateTime DateTime { get; set; }
 
         [Required]
-        [Display(Name = "Comentário")]
+        [Display(Name = "Comment")]
         public string Content { get; set; }
 
         public virtual ICollection<CommentComplaint> Complaints { get; set; }

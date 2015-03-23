@@ -12,7 +12,7 @@ namespace IFSolutions.Models
         public int PetitionID { get; set; }
 
         [Required]
-        [Display(Name = "Categoria")]
+        [Display(Name = "Category")]
         public int CategoryID { get; set; }
         public virtual Category Category { get; set; }
 
@@ -22,7 +22,7 @@ namespace IFSolutions.Models
         public virtual Campus Campus { get; set; }
 
         [Required]
-        [Display(Name = "Usuário")]
+        [Display(Name = "User")]
         public string UserId { get; set; }
         public virtual User User { get; set; }
 
@@ -33,13 +33,13 @@ namespace IFSolutions.Models
         public string Description { get; set; }
 
         [Required]
-        [Display(Name = "Data de criação")]
+        [Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
 
         [Required]
         public bool Solved { get; set; }
 
-        [Display(Name = "Data de resolução")]
+        [Display(Name = "Date Solved")]
         public DateTime? DateSolved { get; set; }
         
         public virtual ICollection<Comment> Comments { get; set; }
