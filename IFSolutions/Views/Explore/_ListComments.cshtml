@@ -27,10 +27,13 @@
             <p class="list-group-item-text">
                 @comment.Content
             </p>
-            <p style="font-size: 9pt; margin-top: 10px">
-                @Html.ActionLink("Marcar como Impróprio", "ComplainComment", new { id = comment.CommentID, petitionID = ViewBag.PetitionID },
-                                new { @class = "text-danger" })
-            </p>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <p style="font-size: 9pt; margin-top: 10px">
+                    @Html.ActionLink("Marcar como Impróprio", "ComplainComment", new { id = comment.CommentID, petitionID = ViewBag.PetitionID },
+                                    new { @class = "text-danger" })
+                </p>
+            }
         </li>
     }
     @if (User.Identity.IsAuthenticated)
