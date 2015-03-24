@@ -167,6 +167,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CampusController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CommentComplaintsController.cs" />
     <Compile Include="Controllers\ExploreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -299,6 +300,8 @@
     <Content Include="Views\Explore\_CommentForm.cshtml" />
     <Content Include="Views\Explore\_ListComments.cshtml" />
     <Content Include="Views\Petitions\Complaints.cshtml" />
+    <Content Include="Views\CommentComplaints\Index.cshtml" />
+    <Content Include="Views\Explore\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<IFSolutions.Models.Comment>
+@using IFSolutions.Models
+
+@{
+    ViewBag.Title = "Comentários Denunciados";
+}
+
+<h2>Comentários Denunciados</h2>
+<h4>Comentários denunciados em ordem de denúncias</h4>
+<hr />
+
+@foreach (Comment comment in Model)
+{
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                @Html.ActionLink(comment.Petition.Title, "Details", "Explore", new { id = comment.Petition.PetitionID }, null)
+            </h3>
+        </div>
+        <div class="panel-body">
+            <p>
+                @comment.Content
+            </p>
+            <hr />
+            <p>
+                <strong>Autor: </strong>@comment.User.FirstName @comment.User.LastName (@comment.Petition.Campus.Description)
+            </p>
+            <p>
+                <strong>Denúncias: </strong>@comment.Complaints.Count
+            </p>
+            <p>
+                @Html.ActionLink("Remover Comentário", "DeleteComment", new { id = comment.CommentID }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Limpar Denuncias", "EmptyComplaints", new { id = comment.CommentID }, new { @class = "btn btn-danger" })
+            </p>
+        </div>
+    </div>
+}
+

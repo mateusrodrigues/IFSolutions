@@ -50,7 +50,7 @@
         &emsp;
         @if (!ViewBag.UserComplained)
         {
-           @Html.ActionLink("Marcar como impróprio", "ComplainPetition", new { petitionID = Model.PetitionID }, new { @class = "text-warning" })
+           @Html.ActionLink("Marcar como impróprio", "ComplainPetition", new { id = Model.PetitionID }, new { @class = "text-warning" })
         }
     </p>
     <p class="text-success">@ViewBag.StatusMessage</p>
@@ -132,7 +132,7 @@
             <h3 class="panel-title"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Comments</h3>
         </div>
         <div class="panel-body" id="comments">
-            @Html.Action("_ListComments", "Explore", new { petitionID = Model.PetitionID })
+            @Html.Action("_ListComments", "Explore", new { id = Model.PetitionID })
         </div>
     </div>
 </div>

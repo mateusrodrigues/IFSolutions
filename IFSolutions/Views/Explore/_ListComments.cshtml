@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<IFSolutions.Models.Comment>
 @using Microsoft.AspNet.Identity
 
+@{
+    string userId = User.Identity.GetUserId();
+}
+
 <ul class="list-group">
     @foreach (var comment in Model)
     {
@@ -12,30 +16,35 @@
                 @comment.DateTime
                 @if (User.Identity.IsAuthenticated)
                 {
-                    if (User.Identity.GetUserId().Equals(comment.UserId, StringComparison.CurrentCultureIgnoreCase))
+                    if (User.Identity.GetUserId().Equals(comment.UserId, StringComparison.CurrentCultureIgnoreCase)
+                        || User.IsInRole("Administrator") || User.IsInRole("Employee"))
                     {
                         @Ajax.ActionLink("Excluir", "_DeleteComment", new { commentID = comment.CommentID, petitionID = ViewBag.PetitionID },
-                                new AjaxOptions() { UpdateTargetId = "comments" })
+                                 new AjaxOptions() { UpdateTargetId = "comments" })
                     }
                 }
             </p>
             <p class="list-group-item-text">
                 @comment.Content
             </p>
+            <p style="font-size: 9pt; margin-top: 10px">
+                @Html.ActionLink("Marcar como Impróprio", "ComplainComment", new { id = comment.CommentID, petitionID = ViewBag.PetitionID },
+                                new { @class = "text-danger" })
+            </p>
         </li>
     }
-@if (User.Identity.IsAuthenticated)
-{
-    <li class="list-group-item">
-        <div>
-            @*<p class="list-group-item-heading" style="font-weight: bold">@ViewBag.Username (@ViewBag.UserCampus)</p>*@
-            @using (Ajax.BeginForm("_CommentForm", "Explore", new AjaxOptions() { UpdateTargetId = "comments", OnSuccess = "onSuccess" },
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li class="list-group-item">
+            <div>
+                @*<p class="list-group-item-heading" style="font-weight: bold">@ViewBag.Username (@ViewBag.UserCampus)</p>*@
+                @using (Ajax.BeginForm("_CommentForm", "Explore", new AjaxOptions() { UpdateTargetId = "comments", OnSuccess = "onSuccess" },
                 new { @class = "form-inline" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.Partial("_CommentForm", new IFSolutions.Models.Comment() { PetitionID = ViewBag.PetitionID })
-            }
-        </div>
-    </li>
-}
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Partial("_CommentForm", new IFSolutions.Models.Comment() { PetitionID = ViewBag.PetitionID })
+                }
+            </div>
+        </li>
+    }
 </ul>

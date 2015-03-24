@@ -60,5 +60,7 @@ namespace IFSolutions.Models
         public System.Data.Entity.DbSet<IFSolutions.Models.Signature> Signatures { get; set; }
 
         public System.Data.Entity.DbSet<IFSolutions.Models.PetitionComplaint> PetitionComplaints { get; set; }
+
+        public System.Data.Entity.DbSet<IFSolutions.Models.CommentComplaint> CommentComplaints { get; set; }
     }
 }

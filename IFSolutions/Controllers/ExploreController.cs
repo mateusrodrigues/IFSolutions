@@ -87,11 +87,11 @@ namespace IFSolutions.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public PartialViewResult _ListComments(int petitionID)
+        public PartialViewResult _ListComments(int id)
         {
-            IEnumerable<Comment> comments = db.Petitions.Where(m => m.PetitionID == petitionID).FirstOrDefault()
+            IEnumerable<Comment> comments = db.Petitions.Where(m => m.PetitionID == id).FirstOrDefault()
                 .Comments.OrderBy(m => m.DateTime);
-            ViewBag.PetitionID = petitionID;
+            ViewBag.PetitionID = id;
 
             if (User.Identity.IsAuthenticated)
             {
@@ -165,7 +165,8 @@ namespace IFSolutions.Controllers
 
             var comment = db.Comments.Find(commentID);
 
-            if (comment.UserId.Equals(userID, StringComparison.CurrentCultureIgnoreCase))
+            if (comment.UserId.Equals(userID, StringComparison.CurrentCultureIgnoreCase) || User.IsInRole("Administrator") 
+                || User.IsInRole("Employee"))
             {
                 db.Comments.Remove(comment);
                 db.SaveChanges();
@@ -189,20 +190,34 @@ namespace IFSolutions.Controllers
             return View("Details", petition);
         }
 
-        public ActionResult ComplainPetition(int petitionID)
+        public ActionResult ComplainPetition(int id)
         {
             PetitionComplaint complaint = new PetitionComplaint()
             {
-                PetitionID = petitionID,
+                PetitionID = id,
                 UserId = User.Identity.GetUserId()
             };
 
             db.PetitionComplaints.Add(complaint);
             db.SaveChanges();
 
-            ViewBag.StatusMessage = "Sua denúncia foi registrada com sucesso";
+            return RedirectToAction("Details", new { id = id });
+        }
 
-            return RedirectToAction("Details", new { id = petitionID });
+        public ActionResult ComplainComment(int id)
+        {
+            CommentComplaint complaint = new CommentComplaint()
+            {
+                CommentID = id,
+                UserId = User.Identity.GetUserId()
+            };
+
+            db.CommentComplaints.Add(complaint);
+            db.SaveChanges();
+
+            ViewBag.StatusMessage = "Denúncia realizada com sucesso!";
+
+            return View("Confirmation");
         }
     }
 }
