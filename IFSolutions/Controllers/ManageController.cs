@@ -100,10 +100,10 @@ namespace IFSolutions.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Sua senha foi modificada com sucesso."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                : message == ManageMessageId.Error ? "Ocorreu um erro durante sua solicitação."
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
@@ -112,6 +112,14 @@ namespace IFSolutions.Controllers
             var currentUser = UserManager.FindById(userId);
 
             ViewBag.RolesForThisUser = UserManager.GetRoles(userId);
+            if (message == ManageMessageId.Error)
+            {
+                ViewBag.MessageType = "Error";
+            }
+            else
+            {
+                ViewBag.MessageType = "Success";
+            }
 
             var model = new IndexViewModel
             {

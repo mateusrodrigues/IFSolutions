@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<IFSolutions.Models.Campus>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Campi";
 }
 
-<h2>Index</h2>
+<h2>Campi</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Criar novo campus", "Create")
 </p>
 <table class="table table-hover">
     <tr>
@@ -23,9 +23,9 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CampusID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CampusID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CampusID })
+            @Html.ActionLink("Editar", "Edit", new { id=item.CampusID }) |
+            @Html.ActionLink("Detalhes", "Details", new { id=item.CampusID }) |
+            @Html.ActionLink("Remover", "Delete", new { id=item.CampusID })
         </td>
     </tr>
 }

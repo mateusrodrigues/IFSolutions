@@ -50,15 +50,15 @@ namespace IFSolutions.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email Address")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Senha")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Manter conectado?")]
         public bool RememberMe { get; set; }
     }
 
@@ -70,22 +70,22 @@ namespace IFSolutions.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} deve ter ao menos {2} catacteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Senha")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Confirmar senha")]
+        [Compare("Password", ErrorMessage = "A senha e a confirmação não conferem.")]
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name = "First Name")]
+        [Display(Name = "Nome")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Last Name")]
+        [Display(Name = "Sobrenome")]
         public string LastName { get; set; }
 
         [Required]
@@ -101,14 +101,14 @@ namespace IFSolutions.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} deve ter ao menos {2} catacteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Senha")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Confirmar senha")]
+        [Compare("Password", ErrorMessage = "A senha e a confirmação não conferem.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

@@ -21,18 +21,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Página Inicial", "Index", "Home")</li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            Explore <span class="caret"></span>
+                            Explorar <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("Unsolved", "Index", "Explore")</li>
-                            <li>@Html.ActionLink("Solved", "Index", "Explore", new { Solved = true }, null)</li>
+                            <li>@Html.ActionLink("Não resolvidos", "Index", "Explore")</li>
+                            <li>@Html.ActionLink("Resolvidos", "Index", "Explore", new { Solved = true }, null)</li>
                         </ul>
                     </li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Sobre", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contato", "Contact", "Home")</li>
                 </ul>
 
                 @Html.Partial("_LoginPartial")

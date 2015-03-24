@@ -71,6 +71,17 @@ namespace IFSolutions.Controllers
                 ViewBag.UserSigned = true;
             }
 
+            int countComplain = db.PetitionComplaints.Where(m => m.UserId == userId && m.PetitionID == id).Count();
+
+            if (countComplain == 1)
+            {
+                ViewBag.UserComplained = true;
+            }
+            else
+            {
+                ViewBag.UserComplained = false;
+            }
+
             return View(petition);
         }
 
@@ -81,6 +92,13 @@ namespace IFSolutions.Controllers
             IEnumerable<Comment> comments = db.Petitions.Where(m => m.PetitionID == petitionID).FirstOrDefault()
                 .Comments.OrderBy(m => m.DateTime);
             ViewBag.PetitionID = petitionID;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                User user = db.Users.Find(User.Identity.GetUserId());
+                ViewBag.Username = user.FirstName + " " + user.LastName;
+                ViewBag.UserCampus = user.Campus.Description;
+            }
 
             return PartialView("_ListComments", comments);
         }
@@ -169,6 +187,22 @@ namespace IFSolutions.Controllers
             db.SaveChanges();
 
             return View("Details", petition);
+        }
+
+        public ActionResult ComplainPetition(int petitionID)
+        {
+            PetitionComplaint complaint = new PetitionComplaint()
+            {
+                PetitionID = petitionID,
+                UserId = User.Identity.GetUserId()
+            };
+
+            db.PetitionComplaints.Add(complaint);
+            db.SaveChanges();
+
+            ViewBag.StatusMessage = "Sua denúncia foi registrada com sucesso";
+
+            return RedirectToAction("Details", new { id = petitionID });
         }
     }
 }

@@ -1,23 +1,23 @@
 ﻿@model IEnumerable<IFSolutions.Models.Petition>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Minhas Petições";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Minhas Petições</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Criar Nova Petição", "Create")
 </p>
 <hr />
 <form class="form-inline">
     <div class="form-group">
-        <label class="sr-only" for="filterText">Filter</label>
-        <input type="text" class="form-control" autocomplete="off" name="filterText" placeholder="Title" />
+        <label class="sr-only" for="filterText">Filtrar</label>
+        <input type="text" class="form-control" autocomplete="off" name="filterText" placeholder="Título" />
     </div>
     <button type="submit" class="btn btn-default">
-        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filter
+        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filtrar
     </button>
 </form>
 <hr />
@@ -122,13 +122,12 @@
                     <td>
                         @if (User.IsInRole("Administrator") || User.IsInRole("Employee"))
                         {
-                            @Html.ActionLink("Edit", "Edit", new { id = item.PetitionID })
+                            @Html.ActionLink("Editar", "Edit", new { id = item.PetitionID })
                         }
-                        @Html.ActionLink("Delete", "Delete", new { id = item.PetitionID })
+                        @Html.ActionLink("Excluir", "Delete", new { id = item.PetitionID })
                     </td>
                 </tr>
             </table>
         </div>
-
     </div>
 }

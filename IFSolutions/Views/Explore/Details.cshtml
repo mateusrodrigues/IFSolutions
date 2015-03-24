@@ -13,7 +13,7 @@
         ViewBag.Glyphicon = "glyphicon glyphicon-remove-circle";
     }
 
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -35,12 +35,25 @@
     }
 </script>
 
-<h2>Petition Details</h2>
+<h2>Detalhes da petição</h2>
 
 <div>
     <p>
-        @Html.ActionLink("Back to List", "Index")
+        @if (Model.Solved)
+        {
+            @Html.ActionLink("Voltar para Petições", "Index", new { solved = true })
+        }
+        else
+        {
+            @Html.ActionLink("Voltar para Petições", "Index")
+        }
+        &emsp;
+        @if (!ViewBag.UserComplained)
+        {
+           @Html.ActionLink("Marcar como impróprio", "ComplainPetition", new { petitionID = Model.PetitionID }, new { @class = "text-warning" })
+        }
     </p>
+    <p class="text-success">@ViewBag.StatusMessage</p>
     <hr />
     <div class="@ViewBag.DivClass" style="padding: 0;">
         <div class="panel-heading">
@@ -52,58 +65,66 @@
         <div class="panel-body">
             <p>
                 <strong>@Html.DisplayNameFor(p => p.Category.Description):</strong> @Html.DisplayFor(p => p.Category.Description)
-                <br />
+            </p>
+            <p>
                 <strong>@Html.DisplayNameFor(p => p.Campus.Description):</strong> @Html.DisplayFor(p => p.Campus.Description)
             </p>
             <hr />
             <p>
                 @Html.DisplayFor(p => p.Description)
             </p>
-            <p><div class="fb-share-button" data-href="@Request.Url.AbsoluteUri" data-layout="button_count"></div></p>
             <hr />
             <p>
-                <strong>Created by:</strong> @Html.DisplayFor(p => p.User.FirstName) @Html.DisplayFor(p => p.User.LastName)
+                <div class="fb-share-button" data-href="@Request.Url.AbsoluteUri" data-layout="button_count"></div>&emsp;
+                <a href="https://twitter.com/share" class="twitter-share-button" data-url="@Request.Url.AbsoluteUri" data-hashtags="ifsolutions">Tweet</a>
+                <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+            </p>
+            <hr />
+            <p>
+                <strong>Criada por:</strong> @Html.DisplayFor(p => p.User.FirstName) @Html.DisplayFor(p => p.User.LastName)
             </p>
             <p>
-                <strong>Signatures:</strong> @Html.DisplayFor(p => p.Signatures.Count)
+                <strong>Número de assinaturas:</strong> @Html.DisplayFor(p => p.Signatures.Count)
+            </p>
+            <p>
                 @if (User.Identity.IsAuthenticated && !Model.Solved)
                 {
                     if (!ViewBag.UserSigned)
                     {
-                        @Html.ActionLink("Sign it!", "SignPetition", new { petitionID = Model.PetitionID });
+                        @Html.ActionLink("Assinar!", "SignPetition", new { petitionID = Model.PetitionID }, new { @class = "btn btn-success" })
                     }
                     else
                     {
-                        @Html.ActionLink("Unsign it!", "UnsignPetition", new { petitionID = Model.PetitionID });
+                        @Html.ActionLink("Remover Assinatura", "UnsignPetition", new { petitionID = Model.PetitionID },
+                                    new { @class = "btn btn-danger" })
+                    }
+                }
+
+                @if (Model.Solved)
+                {
+                    <strong>@Html.DisplayNameFor(m => m.DateSolved):</strong> @Html.DisplayFor(m => m.DateSolved)
+                }
+                else
+                {
+                    if (User.IsInRole("Administrator") || User.IsInRole("Employee") ||
+                        Model.UserId.Equals(User.Identity.GetUserId(), StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="manageDropDown" data-toggle="dropdown" aria-expanded="true">
+                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                Gerenciar
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                @if (!Model.Solved)
+                                {
+                                    <li role="presentation">@Html.ActionLink("Marcar como resolvido", "MarkAsSolved", new { petitionID = Model.PetitionID })</li>
+                                }
+                            </ul>
+                        </div>
                     }
                 }
             </p>
-            @if (Model.Solved)
-            {
-                <p>
-                    <strong>@Html.DisplayNameFor(m => m.DateSolved):</strong> @Html.DisplayFor(m => m.DateSolved)
-                </p>
-            }
-            else
-            {
-                if (User.IsInRole("Administrator") || User.IsInRole("Employee") ||
-                    Model.UserId.Equals(User.Identity.GetUserId(), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="manageDropDown" data-toggle="dropdown" aria-expanded="true">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                            Manage
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            @if (!Model.Solved)
-                            {
-                                <li role="presentation">@Html.ActionLink("Mark as Solved", "MarkAsSolved", new { petitionID = Model.PetitionID })</li>
-                            }
-                        </ul>
-                    </div>
-                }
-            }
         </div>
     </div>
     <div class="panel panel-default">
@@ -115,4 +136,3 @@
         </div>
     </div>
 </div>
-

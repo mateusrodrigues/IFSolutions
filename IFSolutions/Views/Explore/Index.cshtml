@@ -3,32 +3,35 @@
 @using IFSolutions.Models
 
 @{
+    ViewBag.Title = "Explorar";
     if (ViewBag.Solved)
     {
         ViewBag.DivClass = "panel panel-success";
         ViewBag.Glyphicon = "glyphicon glyphicon-ok-circle";
-        ViewBag.Title = "Explore - Solved";
+        ViewBag.Subtitle = "Petições resolvidas";
     }
     else
     {
         ViewBag.DivClass = "panel panel-danger";
         ViewBag.Glyphicon = "glyphicon glyphicon-remove-circle";
-        ViewBag.Title = "Explore - To Be Solved";
+        ViewBag.Subtitle = "Petições não resolvidas";
     }
     
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>Explorar</h2>
+<h4>@ViewBag.Subtitle</h4>
 <hr />
 <form class="form-inline">
     <div class="form-group">
-        <label for="campusDropDown" class="sr-only">Campus: </label>
+        <label for="campusDropDown" class="sr-only">Filtrar por campus</label>
         @Html.DropDownList("campusID", (IEnumerable<SelectListItem>)ViewBag.CampiList, "- Campus -",
-                new { @class = "form-control", @id = "campusDropDown" })
+                new { @class = "form-control", @id = "campusDropDown"})
+        @Html.Hidden("Solved", (object)ViewBag.Solved)
     </div>
     <button class="btn btn-default" type="submit">
-        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filter
+        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filtrar
     </button>
 </form>
 
@@ -51,7 +54,7 @@
                 <span class="glyphicon glyphicon-comment" aria-hidden="true" style="margin-left: 10px"></span> @petition.Comments.Count
             </p>
             <hr />
-            <strong>Student: </strong>@petition.User.FirstName @petition.User.LastName ||
+            <strong>Criado por: </strong>@petition.User.FirstName @petition.User.LastName ||
             <strong>@Html.DisplayNameFor(m => m.FirstOrDefault().DateCreated): </strong>@petition.DateCreated
         </div>
     </div>

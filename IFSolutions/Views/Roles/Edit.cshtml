@@ -1,11 +1,11 @@
 ﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editar Atribuição";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
-@Html.ActionLink("List Roles", "Index") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
+<h2>Editar Atribuição</h2>
+@Html.ActionLink("Listar Atribuições", "Index") | @Html.ActionLink("Gerenciar Atribuições e Usuários", "ManageUserRoles")
 <hr />
 @using (Html.BeginForm())
 {
@@ -18,5 +18,5 @@
     <p>
         @Html.TextBoxFor(model => model.Name)
     </p>
-    <input type="submit" value="Save" />
+    <input type="submit" value="Salvar" />
 }

@@ -1,29 +1,29 @@
 ﻿@model IEnumerable<IFSolutions.Models.UsersRolesViewModel>
 @{
-    ViewBag.Title = "ManageUserRoles";
+    ViewBag.Title = "Listar Usuários";
 }
 
-<h2>Manage User Roles</h2>
-@Html.ActionLink("Create New Role", "Create") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
+<h2>Gerenciar Atribuições e Usuários</h2>
+@Html.ActionLink("Criar Nova Atribuição", "Create") | @Html.ActionLink("Listar Atribuições", "Index")
 <hr />
 <form class="form-inline">
     <div class="form-group">
-        <label for="userEmail" class="sr-only">User Email</label>
+        <label for="userEmail" class="sr-only">Email do Usuário</label>
         <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="Email Address" autocomplete="off" />
     </div>
     <button class="btn btn-default" type="submit">
-        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filter
+        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filtrar
     </button>
 </form>
 <hr />
 <table class="table table-striped">
 
     <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>Nome</th>
+        <th>Sobrenome</th>
         <th>Email</th>
-        <th>Role</th>
-        <th>Actions</th>
+        <th>Atribuição</th>
+        <th>Ações</th>
     </tr>
 
 @foreach (var user in Model)
@@ -33,7 +33,7 @@
         <td>@user.User.LastName</td>
         <td>@user.User.Email</td>
         <td>@user.RoleName</td>
-        <td>@Html.ActionLink("Change Role", "ChangeRole", new { id = user.User.Id })</td>
+        <td>@Html.ActionLink("Mudar Atribuição", "ChangeRole", new { id = user.User.Id })</td>
     </tr>
 }
 </table>

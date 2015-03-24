@@ -13,18 +13,18 @@
             </a>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    @Html.ActionLink("My Account", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    @Html.ActionLink("Minha Conta", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Gerenciar Conta" })
                 </li>
-                <li>@Html.ActionLink("My Petitions", "Index", "Petitions")</li>
+                <li>@Html.ActionLink("Minhas Petições", "Index", "Petitions")</li>
                 @if (User.IsInRole("Administrator"))
                 {
                     <li role="presentation" class="divider"></li>
-                    <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
+                    <li>@Html.ActionLink("Categorias", "Index", "Categories")</li>
                     <li>@Html.ActionLink("Campi", "Index", "Campus")</li>
-                    <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
+                    <li>@Html.ActionLink("Níveis de Acesso", "Index", "Roles")</li>
                 }
                 <li role="presentation" class="divider"></li>
-                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Off</a></li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Sair</a></li>
             </ul>
         </li>
     </ul>
@@ -33,7 +33,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Criar Conta", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }

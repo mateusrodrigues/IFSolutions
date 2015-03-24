@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Atribuições";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-@Html.ActionLink("Create New Role", "Create") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
+<h2>Atribuições</h2>
+@Html.ActionLink("Criar Nova Atribuição", "Create") | @Html.ActionLink("Gerenciar Atribuições e Usuários", "ManageUserRoles")
 <hr />
 <table class="table table-hover">
     <tr>
-        <th>Role Name:</th>
-        <th>Actions</th>
+        <th>Noma da Atribuição:</th>
+        <th>Ações</th>
     </tr>
     @foreach (var role in Model)
     {
@@ -19,8 +19,8 @@
                 @role.Name
             </td>
             <td>
-                <span onclick="return confirm('Are you sure to delete?')"><a href="/Roles/Delete?RoleName=@role.Name" class="delLink" style="color:red;">Delete</a></span> |
-                @Html.ActionLink("Edit", "Edit", new { roleName = @role.Name })
+                <span onclick="return confirm('Certeza que deseja deletar?')"><a href="/Roles/Delete?RoleName=@role.Name" class="delLink" style="color:red;">Deletar</a></span> |
+                @Html.ActionLink("Editar", "Edit", new { roleName = @role.Name })
             </td>
         </tr>
 

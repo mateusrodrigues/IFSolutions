@@ -1,11 +1,11 @@
 ﻿
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Criar Atribuição";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
-@Html.ActionLink("List Roles", "Index") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
+<h2>Criar Atribuição</h2>
+@Html.ActionLink("Listar Atribuições", "Index") | @Html.ActionLink("Gerenciar Atribuições e Usuários", "ManageUserRoles")
 <hr />
 
 @using (Html.BeginForm())
@@ -19,8 +19,8 @@
     <p>
         @Html.TextBox("RoleName", "", new { @class = "form-control" })
     </p>
-    <input type="submit" value="Save" class="btn btn-success" />
-    <input type="reset" value="Reset" class="btn btn-warning" />
+    <input type="submit" value="Criar" class="btn btn-success" />
+    <input type="reset" value="Limpar" class="btn btn-warning" />
 }
 
 

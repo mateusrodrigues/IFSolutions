@@ -1,17 +1,17 @@
 ﻿@model IFSolutions.Models.UsersRolesViewModel
 @{
-    ViewBag.Title = "ChangeRole";
+    ViewBag.Title = "Mudar Atribuições";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ChangeRole</h2>
+<h2>Mudar Atribuições</h2>
 <hr />
 
 @using (Html.BeginForm("ChangeRole", "Roles", FormMethod.Post, new { @class = "form-horizontal", role = "form", newUserProperties = Model }))
 {
     @Html.AntiForgeryToken()
     <h4>Change Role of User</h4>
-    @Html.ActionLink("Back to List", "ManageUserRoles", "Roles")
+    @Html.ActionLink("Voltar para a lista", "ManageUserRoles", "Roles")
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     @Html.HiddenFor(m => m.UserId)

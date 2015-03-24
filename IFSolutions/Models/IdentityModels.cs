@@ -12,11 +12,11 @@ namespace IFSolutions.Models
     public class User : IdentityUser
     {
         [Required]
-        [Display(Name = "First Name")]
+        [Display(Name = "Nome")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Last Name")]
+        [Display(Name = "Sobrenome")]
         public string LastName { get; set; }
 
         [Required]
@@ -58,5 +58,7 @@ namespace IFSolutions.Models
         public System.Data.Entity.DbSet<IFSolutions.Models.Comment> Comments { get; set; }
 
         public System.Data.Entity.DbSet<IFSolutions.Models.Signature> Signatures { get; set; }
+
+        public System.Data.Entity.DbSet<IFSolutions.Models.PetitionComplaint> PetitionComplaints { get; set; }
     }
 }

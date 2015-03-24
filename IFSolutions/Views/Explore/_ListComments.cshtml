@@ -14,7 +14,7 @@
                 {
                     if (User.Identity.GetUserId().Equals(comment.UserId, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        @Ajax.ActionLink("Delete", "_DeleteComment", new { commentID = comment.CommentID, petitionID = ViewBag.PetitionID },
+                        @Ajax.ActionLink("Excluir", "_DeleteComment", new { commentID = comment.CommentID, petitionID = ViewBag.PetitionID },
                                 new AjaxOptions() { UpdateTargetId = "comments" })
                     }
                 }
@@ -24,18 +24,18 @@
             </p>
         </li>
     }
-</ul>
 @if (User.Identity.IsAuthenticated)
 {
-    <hr />
-    <div>
-        <p>@User.Identity.Name says:</p>
-        @using (Ajax.BeginForm("_CommentForm", "Explore", new AjaxOptions() { UpdateTargetId = "comments", OnSuccess = "onSuccess" },
-            new { @class = "form-inline" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.Partial("_CommentForm", new IFSolutions.Models.Comment() { PetitionID = ViewBag.PetitionID })
-        }
-    </div>
+    <li class="list-group-item">
+        <div>
+            @*<p class="list-group-item-heading" style="font-weight: bold">@ViewBag.Username (@ViewBag.UserCampus)</p>*@
+            @using (Ajax.BeginForm("_CommentForm", "Explore", new AjaxOptions() { UpdateTargetId = "comments", OnSuccess = "onSuccess" },
+                new { @class = "form-inline" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Partial("_CommentForm", new IFSolutions.Models.Comment() { PetitionID = ViewBag.PetitionID })
+            }
+        </div>
+    </li>
 }
-
+</ul>
