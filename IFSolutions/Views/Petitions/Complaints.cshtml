@@ -1,0 +1,37 @@
+﻿@model IEnumerable<IFSolutions.Models.Petition>
+@using IFSolutions.Models
+
+@{
+    ViewBag.Title = "Denúncias de Petições";
+}
+
+<h2>Complaints</h2>
+<h4>Listagem de petições por número de denúncias</h4>
+<hr />
+
+@foreach (Petition petition in Model)
+{
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                @Html.ActionLink(petition.Title, "Details", "Explore", new { id = petition.PetitionID }, null)
+            </h3>
+        </div>
+        <div class="panel-body">
+            <p>
+                @petition.Description
+            </p>
+            <hr />
+            <p>
+                <strong>Autor: </strong>@petition.User.FirstName @petition.User.LastName (@petition.Campus.Description)
+            </p>
+            <p>
+                <strong>Denúncias: </strong>@petition.Complaints.Count
+            </p>
+            <p>
+                @Html.ActionLink("Remover Petição", "Delete", new { id = petition.PetitionID }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Limpar Denuncias", "EmptyComplaints", new { id = petition.PetitionID }, new { @class = "btn btn-danger" })
+            </p>
+        </div>
+    </div>
+}

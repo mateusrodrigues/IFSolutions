@@ -1,9 +1,0 @@
-﻿@model IFSolutions.Models.Petition
-
-@{
-    ViewBag.Title = "Marcar como inapropriado";
-}
-
-<h2>Marcar como inapropriado</h2>
-<hr />
-@Html.Action("_PetitionComplaint", new { petitionID = Model.PetitionID })

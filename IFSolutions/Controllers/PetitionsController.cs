@@ -181,6 +181,36 @@ namespace IFSolutions.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Employee, Administrator")]
+        public ActionResult Complaints()
+        {
+            IEnumerable<Petition> petitions = db.Petitions.Where(m => m.Complaints.Count > 0)
+                .OrderBy(m => m.Complaints.Count).ToList();
+
+            return View(petitions);
+        }
+
+        [Authorize(Roles = "Employee, Administrator")]
+        public ActionResult EmptyComplaints(int id)
+        {
+            IEnumerable<PetitionComplaint> complaints = db.PetitionComplaints.Where(m => m.PetitionID == id);
+
+            if (complaints.Count() > 0)
+            {
+                foreach (PetitionComplaint complaint in complaints)
+                {
+                    db.PetitionComplaints.Remove(complaint);
+                }
+
+                db.SaveChanges();
+            }
+
+            IEnumerable<Petition> petitions = db.Petitions.Where(m => m.Complaints.Count > 0)
+                .OrderBy(m => m.Complaints.Count).ToList();
+
+            return RedirectToAction("Complaints");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
